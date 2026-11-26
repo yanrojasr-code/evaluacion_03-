@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ejemplo.controller.PersonaController" spacing="10">
+    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+    <Label text="Personas" style="-fx-font-size: 20px;"/>
+    <Label text="Nombre"/>
+    <TextField fx:id="nombreField" promptText="Ejemplo: Ana"/>
+    <Label text="Correo"/>
+    <TextField fx:id="correoField" promptText="Ejemplo: ana@ejemplo.cl" onAction="#guardar"/>
+    <HBox spacing="10">
+        <Button text="Guardar" onAction="#guardar"/>
+        <Button text="Actualizar" onAction="#cargar"/>
+    </HBox>
+    <TableView fx:id="personasTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="nombreColumn" text="Nombre" prefWidth="220"/>
+            <TableColumn fx:id="correoColumn" text="Correo" prefWidth="300"/>
+        </columns>
+    </TableView>
+    <Label fx:id="estadoLabel" text="Listo." wrapText="true"/>
+</VBox>
