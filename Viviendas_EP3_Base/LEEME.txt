@@ -1,0 +1,70 @@
+VIVIENDAS - PROYECTO BASE EP3
+==============================
+
+Ejecución: clase cl.duoc.viviendas.Launcher (o mvn javafx:run).
+Mientras no asignes tu implementación de ViviendaDAO, la ventana se abre
+y el área de mensajes indica que aún no hay una implementación asignada.
+
+
+ESTRUCTURA
+----------
+cl.duoc.viviendas
+  Launcher, App              Inicio de la aplicación (no modificar).
+  model/                     Vivienda, Departamento, Casa, ConEstacionamiento (no modificar).
+  dao/                       ViviendaDAO y PersistenciaException (no modificar).
+  conexion/ConexionBD        Datos de conexión: COMPLETAR.
+  controller/MainController  Controlador de la ventana: asignar el DAO
+                             (marca "EP3"); no modificar el resto.
+resources/cl/duoc/viviendas/view
+  main-view.fxml             Ventana principal (no modificar).
+pom.xml                      Agregar el conector JDBC (marca "EP3").
+scripts/                     viviendas_mysql.sql y viviendas_oracle.sql:
+                             ejecuta el de tu motor (no modificar).
+
+
+MODELO
+------
+Vivienda (abstracta)
+  int getId() / void setId(int id)              0 mientras no está almacenado.
+  String getCodigo() / setCodigo(String)        No nulo ni vacío.
+  double getSuperficie() / setSuperficie(double)Entre 20 y 500.
+  int getHabitaciones() / setHabitaciones(int)  Mayor que cero.
+  String getTipo()                              "Departamento" o "Casa".
+  double calcularCostoArriendo()            Costo de arriendo, en pesos.
+  Los set lanzan IllegalArgumentException con un mensaje si el dato es inválido.
+
+Departamento extends Vivienda implements ConEstacionamiento
+  Departamento(String codigo, double superficie, int habitaciones, int piso, boolean gastoComunAlDia, boolean estacionamiento)
+  int getPiso() / setPiso(int)                  Mayor que cero.
+  boolean isGastoComunAlDia() / setGastoComunAlDia(boolean)
+  boolean isEstacionamiento() / setEstacionamiento(boolean)
+  Costo: $180.000; +15% si el gasto común no está al día.
+
+Casa extends Vivienda
+  Casa(String codigo, double superficie, int habitaciones, boolean patio)
+  boolean isPatio() / setPatio(boolean)         
+  Costo: $250.000; +10% si tiene patio.
+
+ConEstacionamiento (interfaz)
+  boolean isEstacionamiento()
+  void setEstacionamiento(boolean)
+
+
+ACCESO A DATOS
+--------------
+ViviendaDAO (interfaz)
+  List<Vivienda> obtenerTodos()   Todos los registros, cada uno como Departamento o
+                             Casa, con todos sus datos y su id.
+  void insertar(Vivienda x)       Guarda un registro nuevo (el id lo genera la BD).
+  void actualizar(Vivienda x)     Modifica el registro con el mismo id.
+  void eliminar(int id)      Elimina el registro con ese id.
+  Todas lanzan PersistenciaException si la operación no puede completarse.
+
+PersistenciaException(String mensaje)
+PersistenciaException(String mensaje, Throwable causa)
+  La ventana muestra getMessage() en el área de mensajes.
+
+ConexionBD
+  static Connection getConnection() throws SQLException
+  Entrega una conexión abierta con los datos URL, USUARIO y CLAVE.
+  Quien la utiliza debe cerrarla.

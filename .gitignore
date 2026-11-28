@@ -1,0 +1,18 @@
+
+# Archivos de IntelliJ
+.idea/
+*.iml
+
+# Archivos generados por Maven
+target/
+
+# Bases de datos locales
+*.db
+*.db-shm
+*.db-wal
+
+# Archivos temporales
+*.log
+.DS_Store
+
+
